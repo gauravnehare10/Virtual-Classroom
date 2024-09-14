@@ -58,25 +58,23 @@ def lecture_detail(request, lecture_id):
 
 @login_required
 def enroll_student(request):
+    student, created = Student.objects.get_or_create(user=request.user)
     if request.method == 'POST':
-        form = EnrollmentForm(request.POST)
+        form = EnrollmentForm(request.POST, instance=student)
         if form.is_valid():
-            classroom = form.cleaned_data['classroom']
-            classroom.students.add(request.user)
-            return redirect('myenrollments') 
+            form.save()
+            return redirect('class_detail')
     else:
-        form = EnrollmentForm()
-        
+        form = EnrollmentForm(instance=student)
     return render(request, 'classroom/enroll.html', {'form': form})
 
 
-
-@login_required
 def my_enrollments(request):
-    enrolled_classrooms = request.user.classrooms.all()
-
+    enrollments = Enrollment.objects.filter(user=request.user)
+    classrooms = [enrollment.classroom for enrollment in enrollments]
+    
     context = {
-        'classrooms': enrolled_classrooms,
+        'classrooms': classrooms
     }
     return render(request, 'classroom/myenrollments.html', context)
 

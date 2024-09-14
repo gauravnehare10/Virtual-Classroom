@@ -50,7 +50,12 @@ class Discussion(models.Model):
 
 class ClassRoom(models.Model):
     name = models.CharField(max_length=100)
-    students = models.ManyToManyField(User, related_name="classrooms")
+    students = models.ManyToManyField(User, through='Enrollment')
 
-    def __str__(self):
-        return self.name
+class Enrollment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'classroom')
