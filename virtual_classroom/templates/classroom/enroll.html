@@ -2,10 +2,16 @@
 {% block title %}Enroll in Classes{% endblock %}
 
 {% block content %}
-<h1>Enroll in Classes</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enroll</button>
+    <div class="card m-auto " style="width: 30rem;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><h1>Enroll in Classes</h1></li>
+      <li class="list-group-item">{{ form.as_p }}</li>
+    </ul>
+    <div class="card-footer">
+        <button type="submit">Enroll</button>
+    </div>
+  </div>
 </form>
 {% endblock %}

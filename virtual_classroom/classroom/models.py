@@ -46,3 +46,11 @@ class Discussion(models.Model):
     comment = models.TextField()
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class ClassRoom(models.Model):
+    name = models.CharField(max_length=100)
+    students = models.ManyToManyField(User, related_name="classrooms")
+
+    def __str__(self):
+        return self.name

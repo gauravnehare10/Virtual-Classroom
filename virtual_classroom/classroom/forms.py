@@ -1,5 +1,5 @@
 from django import forms
-from .models import Discussion, Class, Student, User, Instructor
+from .models import Discussion, Class, Student, User, Instructor, ClassRoom
 from django.contrib.auth.forms import UserCreationForm
 
 class CustomUserForm(UserCreationForm):
@@ -22,14 +22,6 @@ class DiscussionForm(forms.ModelForm):
         model = Discussion
         fields = ['comment', 'parent']
 
-class EnrollmentForm(forms.ModelForm):
-    class Meta:
-        model = Student
-        fields = ['enrolled_classes']
-        widgets = {
-            'enrolled_classes': forms.CheckboxSelectMultiple,
-        }
+class EnrollmentForm(forms.Form):
+    classroom = forms.ModelChoiceField(queryset=ClassRoom.objects.all(), label="Select Class")
 
-    def __init__(self, *args, **kwargs):
-        super(EnrollmentForm, self).__init__(*args, **kwargs)
-        self.fields['enrolled_classes'].queryset = Class.objects.all()

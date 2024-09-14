@@ -9,10 +9,10 @@
                 <a class="nav-link" href="{% url "home" %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url "classes" %}">Classes</a>
+                <a class="nav-link" href="{% url "class_detail" %}">Classes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="{% url "my_enrollments" %}">My Enrollments</a>
             </li>
 
             {% if request.user.is_authenticated %}

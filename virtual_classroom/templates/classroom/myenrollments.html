@@ -6,16 +6,9 @@
 <h1>Available Classes</h1>
 
 <table class="table table-striped-columns">
+    {% for enrollments in myenrollments %}
     <tr>
-        <th>Classes</th>
-        <th>Description</th>
-        <th>Enroll</th>
-    </tr>
-    {% for class in classes %}
-    <tr>
-        <td>{{ class.title }}</td>
-        <td>{{ class.description }}</td>
-        <td><a href="{% url "enroll" %}">Enroll</a></td>
+        <td>{{ enrollments }}</td>
     </tr>
     {% empty %}
     <tr><td>No classes available at the moment.</td></tr>
