@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
+    def __str__(self):
+        return f'{self.user}'
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -15,20 +17,28 @@ class Class(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.title}'
 
 class Unit(models.Model):
     class_room = models.ForeignKey(Class, on_delete=models.CASCADE, related_name='units')
     title = models.CharField(max_length=255)
+    def __str__(self):
+        return f'{self.title}'
 
 class Session(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='sessions')
     title = models.CharField(max_length=255)
     description = models.TextField()
+    def __str__(self):
+        return f'{self.title}'
 
 class Lecture(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name='lectures')
     title = models.CharField(max_length=255)
     content = models.TextField()
+    def __str__(self):
+        return f'{self.title}'
 
 class Discussion(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name='discussions')

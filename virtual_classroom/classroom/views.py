@@ -3,10 +3,13 @@ from .forms import *
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def home(request):
-    return render(request, 'classroom/layout/main.html')
+    return render(request, 'classroom/index.html')
 
 def registerview(request):
     form = CustomUserForm()
@@ -40,7 +43,7 @@ def logoutview(request):
     
 def class_list(request):
     classes = Class.objects.all()
-    return render(request, 'class_list.html', {'classes': classes})
+    return render(request, 'classroom/class_list.html', {'classes': classes})
 
 def lecture_detail(request, lecture_id):
     lecture = get_object_or_404(Lecture, id=lecture_id)
@@ -52,3 +55,10 @@ def lecture_detail(request, lecture_id):
         discussion.lecture = lecture
         discussion.save()
     return render(request, 'lecture_detail.html', {'lecture': lecture, 'discussions': discussions, 'form': form})
+
+def lecture_detail(request, lecture_id):
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    if request.user not in lecture.session.unit.class_room.students.all():
+        return HttpResponseForbidden("You are not enrolled in this class.")
+
+

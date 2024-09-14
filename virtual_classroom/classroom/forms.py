@@ -1,5 +1,5 @@
 from django import forms
-from .models import Discussion, Class, Student, User
+from .models import Discussion, Class, Student, User, Instructor
 from django.contrib.auth.forms import UserCreationForm
 
 class CustomUserForm(UserCreationForm):
@@ -11,6 +11,11 @@ class CustomUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+class InstructorForm(forms.ModelForm):
+    class Meta:
+        model = Instructor
+        fields = ['bio']
 
 class DiscussionForm(forms.ModelForm):
     class Meta:
