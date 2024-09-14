@@ -56,9 +56,16 @@ def lecture_detail(request, lecture_id):
         discussion.save()
     return render(request, 'lecture_detail.html', {'lecture': lecture, 'discussions': discussions, 'form': form})
 
-def lecture_detail(request, lecture_id):
-    lecture = get_object_or_404(Lecture, id=lecture_id)
-    if request.user not in lecture.session.unit.class_room.students.all():
-        return HttpResponseForbidden("You are not enrolled in this class.")
+@login_required
+def enroll_student(request):
+    student, created = Student.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = EnrollmentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('class_list')
+    else:
+        form = EnrollmentForm(instance=student)
+    return render(request, 'classroom/enroll.html', {'form': form})
 
 

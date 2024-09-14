@@ -21,3 +21,15 @@ class DiscussionForm(forms.ModelForm):
     class Meta:
         model = Discussion
         fields = ['comment', 'parent']
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['enrolled_classes']
+        widgets = {
+            'enrolled_classes': forms.CheckboxSelectMultiple,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EnrollmentForm, self).__init__(*args, **kwargs)
+        self.fields['enrolled_classes'].queryset = Class.objects.all()

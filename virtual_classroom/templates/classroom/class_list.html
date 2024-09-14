@@ -4,13 +4,22 @@
 
 {% block content %}
 <h1>Available Classes</h1>
-<ul>
+
+<table class="table table-striped-columns">
+    <tr>
+        <th>Classes</th>
+        <th>Description</th>
+        <th>Enroll</th>
+    </tr>
     {% for class in classes %}
-    <li>
-        <a href="{% url 'class_detail' class.id %}">{{ class.title }}</a> - {{ class.description }}
-    </li>
+    <tr>
+        <td>{{ class.title }}</a></td>
+        <td>{{ class.description }}</td>
+        <td><a href="{% url "enroll" %}">Enroll</a></td>
+    </tr>
     {% empty %}
-    <li>No classes available at the moment.</li>
+    <tr><td>No classes available at the moment.</td></tr>
     {% endfor %}
+</table>
 </ul>
 {% endblock %}

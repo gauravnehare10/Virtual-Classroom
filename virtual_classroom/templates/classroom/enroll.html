@@ -1,0 +1,11 @@
+{% extends 'classroom/layout/main.html' %}
+{% block title %}Enroll in Classes{% endblock %}
+
+{% block content %}
+<h1>Enroll in Classes</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enroll</button>
+</form>
+{% endblock %}
